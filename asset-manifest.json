@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/react-admin-dahsboard-website/static/css/main.12422b2b.css",
-    "main.js": "/react-admin-dahsboard-website/static/js/main.ba5de09f.js",
-    "index.html": "/react-admin-dahsboard-website/index.html",
-    "main.12422b2b.css.map": "/react-admin-dahsboard-website/static/css/main.12422b2b.css.map",
-    "main.ba5de09f.js.map": "/react-admin-dahsboard-website/static/js/main.ba5de09f.js.map"
+    "main.css": "/cryptobase-react-app/static/css/main.12422b2b.css",
+    "main.js": "/cryptobase-react-app/static/js/main.393aa508.js",
+    "index.html": "/cryptobase-react-app/index.html",
+    "main.12422b2b.css.map": "/cryptobase-react-app/static/css/main.12422b2b.css.map",
+    "main.393aa508.js.map": "/cryptobase-react-app/static/js/main.393aa508.js.map"
   },
   "entrypoints": [
     "static/css/main.12422b2b.css",
-    "static/js/main.ba5de09f.js"
+    "static/js/main.393aa508.js"
   ]
 }
