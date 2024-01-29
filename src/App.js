@@ -1,95 +1,46 @@
-import React, { useEffect, useState } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { FiSettings, FieldSettings } from 'react-icons/fi';
-import { TooltipComponent } from '@syncfusion/ej2-react-popups';
+import React, { useEffect, useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import { ThemeProvider } from './context/ThemeContext';
+import Home from './routes/Home';
+import Signin from './routes/Signin';
+import Signup from './routes/Signup';
+import Account from './routes/Account';
+import axios from 'axios';
+import CoinPage from './routes/CoinPage';
+import Footer from './components/Footer';
+import { AuthContextProvider } from './context/AuthContext';
 
-import { Navbar, Footer, Sidebar, ThemeSettings } from './components'
-import { Ecommerce, Orders, Calendar, Employees, Stacked, Pyramid, Customers, Kanban, Area, Bar, Pie, Financial, ColorPicker,
-ColorMapping, Editor, Line } from './pages';
+function App() {
+  const [coins, setCoins] = useState([]);
 
-import { useStateContext } from './contexts/ContextProvider';
+  const url =
+    'https://api.coingecko.com/api/v3/coins/markets?vs_currency=NGN&order=market_cap_desc&per_page=10&page=1&sparkline=true&locale=en';
 
-import './App.css'
-
-const App = () => {
-
-  const { activeMenu, ThemeSettings, setThemeSettings  } = useStateContext()
-
+  useEffect(() => {
+    axios.get(url).then((response) => {
+      setCoins(response.data);
+      console.log(response.data)
+    });
+  }, [url]);
 
   return (
-    <div>
-      <BrowserRouter>
-        <div className='flex relative dark:bg-main-dark-bg'>
-          <div className='fixed right-4 bottom-4' style={{zIndex: '1000'}}>
-            <TooltipComponent content="Settings" position='Top'>
-              <button type='button' className='text-3xl p-3 hover:drop-shadow-xl
-              hover:bg-light-grey text-white' 
-              onClick={() => setThemeSettings(true)}
-              style={{ background: 'blue', borderRadius: '50%' }}>
-                <FiSettings />
-              </button>
-            </TooltipComponent>
-          </div>
-          {activeMenu ? (
-            <div className='w-72 fixed sidebar dark:bg-secondary-dark-bg
-            bg-white'>
-              <Sidebar />
-            </div>
-          ) : (
-            <div className='w-0 dark'>
-              <Sidebar />
-            </div>
-          )}
-          <div className={`dark:bg-main-bg bg-main-bg 
-          min-h-screen w-full ${ activeMenu ? 'md:ml-72' :
-          ' flex-2'}`
-           
-          }> 
-          <div className='fixed md:static bg-main-bg
-          dark:bg-main-dark-bg navbar w-full'>
-            <Navbar />
-          </div>
-
-          
-          <div>
-
-          {ThemeSettings && <ThemeSettings />}
-
-            <Routes>
-              {/* Dashbord */}
-              <Route path='/' element={<Ecommerce />} />
-              <Route path='/ecommerce' element={<Ecommerce /> } />
-
-              {/* pages */}
-              <Route path='/orders' element={<Orders />} />
-              <Route path='/employees' element={<Employees/>} />
-              <Route path='/customers' element={<Customers />} />
-
-              {/* Apps */} 
-
-              <Route path='/kanban' element={<Kanban />} />
-              <Route path='/editor' element={<Editor />} />
-              <Route path='/calendar' element={<Calendar />} />
-              <Route path='/color-picker' element={<ColorPicker />} />
-
-              {/* charts */}
-              <Route path='/line' element={<Line />} />
-              <Route path='/area' element={<Area />} />
-              <Route path='/bar' element={<Bar />} />
-              <Route path='/pie' element={<Pie />} />
-              <Route path='/financial' element={<Financial />} />
-              <Route path='/colo-mapping' element={<ColorMapping />} />
-              <Route path='/pyramid' element={<Pyramid />} />
-              <Route path='/stacked' element={<Stacked />} />
-
-
-            </Routes>
-          </div>
-        </div>
-        </div>
-      </BrowserRouter>
-    </div>
+    <ThemeProvider>
+      // <AuthContextProvider>
+        <Navbar />
+        <Routes>
+           <Route path='/' element={<Home coins={coins} />} />
+          <Route path='/signin' element={<Signin />} />
+          <Route path='/signup' element={<Signup />} />
+          <Route path='/account' element={<Account />} />
+          <Route path='/coin/:coinId' element={<CoinPage />}>
+            <Route path=':coinId' />
+          </Route>
+        </Routes>
+        <Footer />
+      </AuthContextProvider>
+    </ThemeProvider> 
   )
 }
 
-export default App
+export default App;
